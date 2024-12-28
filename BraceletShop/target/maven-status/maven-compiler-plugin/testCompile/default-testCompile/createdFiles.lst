@@ -1,0 +1,6 @@
+ServiceTesting\PatientServiceTest.class
+com\DocDB\test\DoctorControllerTest.class
+com\DocDB\test\PingControllerTest.class
+TestTest.class
+ServiceTesting\UserServiceTest.class
+ServiceTesting\DoctorServiceTest.class
