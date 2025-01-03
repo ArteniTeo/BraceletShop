@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -17,6 +18,15 @@ public class OrderDetail {
     //todo lab_res
 
     @Id
+    @SequenceGenerator(
+            name = "order_detail_id_seq",
+            sequenceName = "order_detail_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "order_detail_id_seq"
+    )
     private Long id;
 
     @ManyToOne
@@ -32,6 +42,9 @@ public class OrderDetail {
     private String shippingAddress;
 
     @Column(name = "order_date")
-    private LocalDate orderDate;
+    private Date orderDate;
+
+    @Column(name = "delivery_date")
+    private Date deliveryDate;
 
 }

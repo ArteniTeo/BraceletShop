@@ -15,17 +15,17 @@ public class BraceletController {
 
     private final BraceletService service;
 
-    @GetMapping(value = "/obs")
+    @GetMapping(value = "/bracelet")
     public Optional<Bracelet> getObservation(@RequestParam(value = "id") Long id) {
         return service.findById(id);
     }
 
-    @GetMapping(value = "/obsS")
+    @GetMapping(value = "/bracelets")
     public List<Bracelet> getAllObservations() {
         return service.findAll();
     }
 
-    @PostMapping(value = "/obs")
+    @PostMapping(value = "/bracelet")
     public Bracelet createObservation(@RequestBody Bracelet bracelet) {
         return service.createObservation(bracelet);
     }

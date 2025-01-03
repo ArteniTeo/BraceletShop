@@ -17,6 +17,15 @@ public class OrderItem {
     public static final String RESOURCE_NAME = "appointment";
 
     @Id
+    @SequenceGenerator(
+            name = "order_item_id_seq",
+            sequenceName = "order_item_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "order_item_id_seq"
+    )
     private Long id;
 
     @ManyToOne

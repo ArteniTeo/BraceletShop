@@ -27,7 +27,7 @@ public class OrderItemController {
     }
 
     @PostMapping(value = "/item")
-    public ResponseEntity<OrderItem> createAppointment(@RequestBody OrderItem item) {
+    public ResponseEntity<OrderItem> createItem(@RequestBody OrderItem item) {
         OrderItem createdItem = service.createItem(item);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
     }

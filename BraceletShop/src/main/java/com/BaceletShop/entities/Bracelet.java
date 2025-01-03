@@ -15,6 +15,15 @@ import lombok.Setter;
 public class Bracelet {
 
     @Id
+    @SequenceGenerator(
+            name = "bracelet_id_seq",
+            sequenceName = "bracelet_id_seq",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "bracelet_id_seq"
+    )
     private Long id;
     private String name;
     private String description;
