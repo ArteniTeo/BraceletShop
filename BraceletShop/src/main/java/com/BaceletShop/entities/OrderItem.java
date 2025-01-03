@@ -34,7 +34,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "bracelet_id", nullable = false)
-    private Bracelet bracelet;
+    private Product product;
 
     private Long quantity;
 

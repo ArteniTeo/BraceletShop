@@ -14,19 +14,40 @@ public class OrderDetailController {
 
     private final OrderDetailService service;
 
-    @RequestMapping(value = "/order", method = RequestMethod.POST)
+    @PostMapping(value = "/order")
     public OrderDetail insertOrder(@RequestBody OrderDetail order) {
         return service.createOrder(order);
     }
 
-    @RequestMapping(value = "/order", method = RequestMethod.GET)
+
+    @GetMapping(value = "/order")
     public OrderDetail findByOrderId(@RequestParam(value = "id") Long id) {
         return service.findOrderById(id);
     }
 
-    @GetMapping(value = "/orders")
-    public List<OrderDetail> findOrders(@RequestParam(value = "id") Long id) {
-        return service.findOrdersByUserId(id);
+    //Only orders with the status "ORDERING" (the users shopping cart) can be updated.
+    @PutMapping(value = "/order")
+    public OrderDetail updateOrder(@RequestBody OrderDetail order) {
+        return service.updateOrder(order);
+    }
+
+
+    //Get the users current shopping
+    @GetMapping(value = "/shoppingCart")
+    public OrderDetail findShoppingCart(@RequestParam(value = "id") Long id) {
+        return service.findShoppingCartByUserId(id);
+    }
+
+    //Get the users currently placed orders (that are en route)
+    @GetMapping(value = "/placedOrders")
+    public List<OrderDetail> findPlacedOrders(@RequestParam(value = "id") Long id) {
+        return service.findPlacedOrdersByUserId(id);
+    }
+
+    //Get the users completed orders (that have been successfully delivered)
+    @GetMapping(value = "/completedOrders")
+    public List<OrderDetail> findCompletedOrders(@RequestParam(value = "id") Long id) {
+        return service.findCompletedOrdersByUserId(id);
     }
 
 }

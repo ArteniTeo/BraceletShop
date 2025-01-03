@@ -1,5 +1,6 @@
 package com.BaceletShop.service;
 
+import com.BaceletShop.entities.OrderDetail;
 import com.BaceletShop.entities.User;
 import com.BaceletShop.exception.UserNotFoundException;
 import com.BaceletShop.reposiory.UserRepository;
@@ -17,7 +18,8 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
+    private final OrderDetailService orderDetailService;
 
     public User createUser(User user) {
         if (!isEmailValid(user.getEmail())) throw new RuntimeException("Invalid email.");
@@ -25,22 +27,26 @@ public class UserService {
         if (findByEmail(user.getEmail()) != null) throw new RuntimeException("Email already in use.");
         if (findByUsername(user.getUsername()) != null) throw new RuntimeException("Username already in use.");
 
-        return repository.save(user);
+        //Create the users shopping cart
+        OrderDetail shoppingCart = new OrderDetail(user);
+        orderDetailService.createOrder(shoppingCart);
+
+        return userRepository.save(user);
     }
 
     public User findByEmail(String email) {
-        return repository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
     public User findByUsername(String username) {
-        return repository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     public User login(String identifier, String password) {
         if (isEmailValid(identifier))
-            return repository.findByEmailAndPassword(identifier, password).orElse(new User(0L));
+            return userRepository.findByEmailAndPassword(identifier, password).orElse(new User(0L));
         else
-            return repository.findByUsernameAndPassword(identifier, password).orElse(new User(0L));
+            return userRepository.findByUsernameAndPassword(identifier, password).orElse(new User(0L));
 
     }
 
@@ -53,7 +59,7 @@ public class UserService {
 
     @Cacheable("users")
     public User getUserById(Long id) {
-        return repository.findById(id).orElseGet(() -> {
+        return userRepository.findById(id).orElseGet(() -> {
             log.warn("user not found for id {}", id);
             throw new UserNotFoundException(id);
         });
@@ -61,11 +67,11 @@ public class UserService {
 
     public void removeUser(Long id) {
         User user = getUserById(id);
-        repository.delete(user);
+        userRepository.delete(user);
     }
 
     public User updateUser(User user) {
-        return repository.save(user);
+        return userRepository.save(user);
     }
 
 }

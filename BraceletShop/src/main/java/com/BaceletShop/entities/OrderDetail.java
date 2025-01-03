@@ -33,6 +33,9 @@ public class OrderDetail {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    // ORDERING (shopping cart)
+    // PLACED (user has paid and the products are en route)
+    // COMPLETED (the products have been delivered)
     private String status;
 
     @Column(name = "total_price")
@@ -47,4 +50,11 @@ public class OrderDetail {
     @Column(name = "delivery_date")
     private Date deliveryDate;
 
+    //create a shopping cart for a new user
+    public OrderDetail(User user) {
+        this.user = user;
+        this.status = "ORDERING";
+        this.totalPrice = 0L;
+        this.shippingAddress = user.getAddress();
+    }
 }

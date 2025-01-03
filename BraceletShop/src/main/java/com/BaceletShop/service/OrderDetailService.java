@@ -19,12 +19,40 @@ public class OrderDetailService {
         return repository.save(order);
     }
 
+    public OrderDetail updateOrder(OrderDetail order) {
+
+        OrderDetail OD = findOrderById(order.getId());
+        if (OD.getStatus().equals("ORDERING")) {
+            int uhhh = repository.updateStatusAndTotalPriceAndShippingAddressAndOrderDateAndDeliveryDateById(
+                    order.getStatus(), order.getTotalPrice(),
+                    order.getShippingAddress(), order.getOrderDate(),
+                    order.getDeliveryDate(), order.getId());
+
+            if (uhhh != 0)
+                return order;
+            else
+                return null;
+        } else {
+            return null;
+        }
+
+
+    }
+
     public OrderDetail findOrderById(Long id) {
         return repository.findOrderDetailById(id);
     }
 
-    public List<OrderDetail> findOrdersByUserId(Long id) {
-        return repository.findOrderDetailByUserId(id);
+    public OrderDetail findShoppingCartByUserId(Long id) {
+        return repository.findByUser_IdAndStatus(id, "ORDERING");
+    }
+
+    public List<OrderDetail> findPlacedOrdersByUserId(Long id) {
+        return repository.findByUser_IdAndStatusOrderByOrderDateDesc(id, "PLACED");
+    }
+
+    public List<OrderDetail> findCompletedOrdersByUserId(Long id) {
+        return repository.findByUser_IdAndStatusOrderByOrderDateDesc(id, "COMPLETED");
     }
 
 }

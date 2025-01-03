@@ -1,7 +1,7 @@
 package com.BaceletShop.controller;
 
-import com.BaceletShop.entities.Bracelet;
-import com.BaceletShop.service.BraceletService;
+import com.BaceletShop.entities.Product;
+import com.BaceletShop.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,23 +11,23 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://127.0.0.1:5500/")
 @RestController
 @RequiredArgsConstructor
-public class BraceletController {
+public class ProductController {
 
-    private final BraceletService service;
+    private final ProductService service;
 
     @GetMapping(value = "/bracelet")
-    public Optional<Bracelet> getObservation(@RequestParam(value = "id") Long id) {
+    public Optional<Product> getObservation(@RequestParam(value = "id") Long id) {
         return service.findById(id);
     }
 
     @GetMapping(value = "/bracelets")
-    public List<Bracelet> getAllObservations() {
+    public List<Product> getAllObservations() {
         return service.findAll();
     }
 
     @PostMapping(value = "/bracelet")
-    public Bracelet createObservation(@RequestBody Bracelet bracelet) {
-        return service.createObservation(bracelet);
+    public Product createObservation(@RequestBody Product product) {
+        return service.createObservation(product);
     }
 
 }

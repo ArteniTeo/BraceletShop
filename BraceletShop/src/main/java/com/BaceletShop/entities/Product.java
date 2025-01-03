@@ -11,18 +11,18 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "bracelet")
-public class Bracelet {
+@Table(name = "product")
+public class Product {
 
     @Id
     @SequenceGenerator(
-            name = "bracelet_id_seq",
-            sequenceName = "bracelet_id_seq",
+            name = "product_id_seq",
+            sequenceName = "product_id_seq",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "bracelet_id_seq"
+            generator = "product_id_seq"
     )
     private Long id;
     private String name;
