@@ -1,5 +1,6 @@
 package com.BaceletShop.service;
 
+import com.BaceletShop.common.OrderStatus;
 import com.BaceletShop.entities.OrderDetail;
 import com.BaceletShop.reposiory.OrderDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class OrderDetailService {
         return repository.save(order);
     }
 
+    //TODO Refactor this... looks ugly
     public OrderDetail updateOrder(OrderDetail order) {
 
         OrderDetail OD = findOrderById(order.getId());
@@ -44,15 +46,15 @@ public class OrderDetailService {
     }
 
     public OrderDetail findShoppingCartByUserId(Long id) {
-        return repository.findByUser_IdAndStatus(id, "ORDERING");
+        return repository.findByUser_IdAndStatus(id, OrderStatus.ORDERING);
     }
 
     public List<OrderDetail> findPlacedOrdersByUserId(Long id) {
-        return repository.findByUser_IdAndStatusOrderByOrderDateDesc(id, "PLACED");
+        return repository.findByUser_IdAndStatusOrderByOrderDateDesc(id, OrderStatus.PLACED);
     }
 
     public List<OrderDetail> findCompletedOrdersByUserId(Long id) {
-        return repository.findByUser_IdAndStatusOrderByOrderDateDesc(id, "COMPLETED");
+        return repository.findByUser_IdAndStatusOrderByOrderDateDesc(id, OrderStatus.COMPLETED);
     }
 
 }

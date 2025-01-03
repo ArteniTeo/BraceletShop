@@ -15,14 +15,17 @@ public class OrderItemService {
 
     private final OrderItemRepository repository;
 
+    //Used for finding Items by id.
     public OrderItem findById(Long id) {
         return repository.findById(id).orElse(new OrderItem());
     }
 
+    //TODO For testing purposes
     public List<OrderItem> getAllItems() {
         return repository.findAll();
     }
 
+    //Adding an item to a users Shopping Cart
     public OrderItem createItem(OrderItem item) {
         return repository.save(item);
     }

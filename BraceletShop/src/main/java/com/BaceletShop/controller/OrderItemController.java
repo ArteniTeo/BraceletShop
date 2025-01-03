@@ -16,16 +16,19 @@ public class OrderItemController {
 
     private final OrderItemService service;
 
+    //TODO For testing purposes
     @GetMapping(value = "/items")
     public List<OrderItem> getAllItems() {
         return service.getAllItems();
     }
 
+    //TODO For testing purposes
     @GetMapping(value = "/item")
     public OrderItem getItemById(@RequestParam(value = "id") Long id) {
         return service.findById(id);
     }
 
+    //For when the user adds an item to their shopping cart.
     @PostMapping(value = "/item")
     public ResponseEntity<OrderItem> createItem(@RequestBody OrderItem item) {
         OrderItem createdItem = service.createItem(item);

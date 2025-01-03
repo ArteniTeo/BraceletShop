@@ -1,12 +1,12 @@
 package com.BaceletShop.entities;
 
+import com.BaceletShop.common.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.time.LocalDate;
 
 @Entity
 @Data
@@ -53,7 +53,7 @@ public class OrderDetail {
     //create a shopping cart for a new user
     public OrderDetail(User user) {
         this.user = user;
-        this.status = "ORDERING";
+        this.status = OrderStatus.ORDERING;
         this.totalPrice = 0L;
         this.shippingAddress = user.getAddress();
     }

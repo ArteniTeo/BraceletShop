@@ -33,7 +33,7 @@ public class OrderItem {
     private OrderDetail order;
 
     @ManyToOne
-    @JoinColumn(name = "bracelet_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private Long quantity;
