@@ -1,6 +1,7 @@
 package com.BaceletShop.service;
 
 import com.BaceletShop.common.OrderStatus;
+import com.BaceletShop.entities.OrderDetail;
 import com.BaceletShop.entities.OrderItem;
 import com.BaceletShop.entities.Product;
 import com.BaceletShop.reposiory.OrderItemRepository;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -45,11 +47,38 @@ public class OrderItemService {
 
     public OrderItem addToCart(Long prodId, Long userId, int quantity) {
         Product prodToBeAdded = pS.findProductById(prodId);
-        OrderItem itemToAddToCart = new OrderItem(ODS.findShoppingCartByUserId(userId), prodToBeAdded, quantity);
+        OrderDetail shoppingCart = ODS.findShoppingCartByUserId(userId);
+
+        //Checking if this product already exists in the users shopping cart
+        OrderItem checkForExisting = checkForExistingItemsAndChangeQuantity(getItemsFromUsersShoppingCart(userId), prodId, quantity);
+
+        //if it exists update the products quantity instead of adding a new one
+        if (checkForExisting != null) {
+            if (updateQuantity(checkForExisting) != 0)
+                return null;
+        }
+
+        OrderItem itemToAddToCart = new OrderItem(shoppingCart, prodToBeAdded, quantity);
         return repository.save(itemToAddToCart);
+    }
+
+    public int updateQuantity(OrderItem updateItem) {
+        return repository.updateQuantityById(updateItem.getQuantity(), updateItem.getId());
+    }
+
+    private OrderItem checkForExistingItemsAndChangeQuantity(List<OrderItem> shoppingCart, Long prodId, int quantityToBeAdded) {
+        for (OrderItem itemToBeUpdated : shoppingCart) {
+            if (Objects.equals(itemToBeUpdated.getProduct().getId(), prodId)) {
+                itemToBeUpdated.setQuantity(itemToBeUpdated.getQuantity() + quantityToBeAdded);
+                return itemToBeUpdated;
+            }
+        }
+        return null;
     }
 
     public void deleteItem(Long id) {
         repository.delete(findById(id));
     }
+
+
 }
