@@ -23,7 +23,7 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Long> 
 
     OrderDetail findOrderDetailById(Long id);
 
-    //todo Find use or delete
+    //TODO Find use or delete
     List<OrderDetail> findOrderDetailByUserId(Long id);
 
     OrderDetail findByUser_IdAndStatus(Long id, String status);

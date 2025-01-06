@@ -17,15 +17,14 @@ public class OrderItemController {
     private final OrderItemService service;
 
     //TODO For testing purposes
-    @GetMapping(value = "/items")
-    public List<OrderItem> getAllItems() {
-        return service.getAllItems();
-    }
-
-    //TODO For testing purposes
     @GetMapping(value = "/item")
     public OrderItem getItemById(@RequestParam(value = "id") Long id) {
         return service.findById(id);
+    }
+
+    @GetMapping(value = "/items")
+    public List<OrderItem> getAllItemsFromAUsersShoppingCart(@RequestParam(value = "id") Long id) {
+        return service.getItemsFromUsersShoppingCart(id);
     }
 
     //For when the user adds an item to their shopping cart.

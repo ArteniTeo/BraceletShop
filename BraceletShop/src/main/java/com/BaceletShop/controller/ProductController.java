@@ -15,18 +15,18 @@ public class ProductController {
 
     private final ProductService service;
 
-    @GetMapping(value = "/bracelet")
-    public Optional<Product> getObservation(@RequestParam(value = "id") Long id) {
+    @GetMapping(value = "/product")
+    public Optional<Product> getProducts(@RequestParam(value = "id") Long id) {
         return service.findById(id);
     }
 
-    @GetMapping(value = "/bracelets")
-    public List<Product> getAllObservations() {
+    @GetMapping(value = "/products")
+    public List<Product> getAllProducts() {
         return service.findAll();
     }
 
-    @PostMapping(value = "/bracelet")
-    public Product createObservation(@RequestBody Product product) {
+    @PostMapping(value = "/product")
+    public Product createProducts(@RequestBody Product product) {
         return service.createObservation(product);
     }
 

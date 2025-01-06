@@ -13,18 +13,18 @@ public class UserController {
 
     private final UserService service;
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public User login(@RequestParam(value = "identifier") String identifier,
                       @RequestParam(value = "password") String password) {
         return service.login(identifier, password);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    @GetMapping(value = "/user")
     public User getUserById(@RequestParam(value = "id") Long id) {
         return service.getUserById(id);
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    @PostMapping(value = "/user")
     public User signup(@RequestBody User user) {
         return service.createUser(user);
     }

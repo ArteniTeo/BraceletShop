@@ -27,11 +27,14 @@ public class UserService {
         if (findByEmail(user.getEmail()) != null) throw new RuntimeException("Email already in use.");
         if (findByUsername(user.getUsername()) != null) throw new RuntimeException("Username already in use.");
 
-        //Create the users shopping cart
-        OrderDetail shoppingCart = new OrderDetail(user);
+        user.setRole("CLIENT");
+
+        User newUser = userRepository.save(user);
+
+        OrderDetail shoppingCart = new OrderDetail(newUser);
         orderDetailService.createOrder(shoppingCart);
 
-        return userRepository.save(user);
+        return newUser;
     }
 
     public User findByEmail(String email) {
@@ -47,7 +50,6 @@ public class UserService {
             return userRepository.findByEmailAndPassword(identifier, password).orElse(new User(0L));
         else
             return userRepository.findByUsernameAndPassword(identifier, password).orElse(new User(0L));
-
     }
 
     private boolean isEmailValid(String identifier) {
