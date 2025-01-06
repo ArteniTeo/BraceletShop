@@ -1,5 +1,6 @@
 package com.BaceletShop.entities;
 
+import com.BaceletShop.common.UserRoles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,9 +33,13 @@ public class User {
     private String username;
     private String password;
     private String address;
-    private String role;
+    private String role = UserRoles.CLIENT;
 
     public User(Long id) {
         this.id = id;
+    }
+
+    public boolean isAddressEmpty() {
+        return address == null || address.isEmpty();
     }
 }

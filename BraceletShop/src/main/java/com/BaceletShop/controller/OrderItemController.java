@@ -40,7 +40,7 @@ public class OrderItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
     }
 
-    @PutMapping(value = "/deleteItem")
+    @DeleteMapping(value = "/deleteItem")
     public void deleteItem(@RequestParam(value = "id") Long id) {
         service.deleteItem(id);
     }

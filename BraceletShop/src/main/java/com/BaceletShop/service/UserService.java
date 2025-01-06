@@ -1,6 +1,5 @@
 package com.BaceletShop.service;
 
-import com.BaceletShop.entities.OrderDetail;
 import com.BaceletShop.entities.User;
 import com.BaceletShop.exception.UserNotFoundException;
 import com.BaceletShop.reposiory.UserRepository;
@@ -11,15 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.regex.Pattern;
 
-//import static com.DocDB.validator.UserValidator.*;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final OrderDetailService orderDetailService;
 
     public User createUser(User user) {
         if (!isEmailValid(user.getEmail())) throw new RuntimeException("Invalid email.");
@@ -27,14 +23,9 @@ public class UserService {
         if (findByEmail(user.getEmail()) != null) throw new RuntimeException("Email already in use.");
         if (findByUsername(user.getUsername()) != null) throw new RuntimeException("Username already in use.");
 
-        user.setRole("CLIENT");
+        if (user.getAddress().isBlank()) user.setAddress("homeless");
 
-        User newUser = userRepository.save(user);
-
-        OrderDetail shoppingCart = new OrderDetail(newUser);
-        orderDetailService.createOrder(shoppingCart);
-
-        return newUser;
+        return userRepository.save(user);
     }
 
     public User findByEmail(String email) {

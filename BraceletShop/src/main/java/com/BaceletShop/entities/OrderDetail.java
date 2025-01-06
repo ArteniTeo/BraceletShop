@@ -57,4 +57,8 @@ public class OrderDetail {
         this.totalPrice = 0L;
         this.shippingAddress = user.getAddress();
     }
+
+    public boolean isAddressEmpty() {
+        return shippingAddress == null || shippingAddress.isEmpty();
+    }
 }

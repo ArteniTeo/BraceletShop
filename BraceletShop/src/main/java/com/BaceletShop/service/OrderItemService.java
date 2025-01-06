@@ -18,8 +18,9 @@ import java.util.Objects;
 public class OrderItemService {
 
     private final OrderItemRepository repository;
-    private final OrderDetailService ODS;
-    private final ProductService pS;
+    private final OrderDetailService orderDetailService;
+    private final ProductService productService;
+    private final UserService userService;
 
     //Used for finding single Items by id in order to update.
     public OrderItem findById(Long id) {
@@ -45,18 +46,23 @@ public class OrderItemService {
         return repository.save(item);
     }
 
+    //TODO - refactoring and test cases
     public OrderItem addToCart(Long prodId, Long userId, int quantity) {
-        Product prodToBeAdded = pS.findProductById(prodId);
-        OrderDetail shoppingCart = ODS.findShoppingCartByUserId(userId);
+        Product prodToBeAdded = productService.findProductById(prodId);
+        OrderDetail shoppingCart = orderDetailService.findShoppingCartByUserId(userId);
 
         //Checking if this product already exists in the users shopping cart
         OrderItem checkForExisting = checkForExistingItemsAndChangeQuantity(getItemsFromUsersShoppingCart(userId), prodId, quantity);
 
+        //Update the shopping carts total price.
+        orderDetailService.updatePrice(shoppingCart.getTotalPrice() + prodToBeAdded.getPrice() * quantity, shoppingCart.getId());
+
         //if it exists update the products quantity instead of adding a new one
-        if (checkForExisting != null) {
+        if (checkForExisting != null)
             if (updateQuantity(checkForExisting) != 0)
                 return null;
-        }
+            else
+                return new OrderItem(-1L);
 
         OrderItem itemToAddToCart = new OrderItem(shoppingCart, prodToBeAdded, quantity);
         return repository.save(itemToAddToCart);

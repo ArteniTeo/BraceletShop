@@ -40,6 +40,10 @@ public class OrderItem {
 
     private Long price;
 
+    public OrderItem(Long id) {
+        this.id = id;
+    }
+
     public OrderItem(OrderDetail order, Product product, int quantity) {
         this.order = order;
         this.product = product;

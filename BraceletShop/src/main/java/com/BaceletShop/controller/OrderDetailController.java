@@ -25,10 +25,10 @@ public class OrderDetailController {
         return service.findOrderById(id);
     }
 
-    //Only orders with the status "ORDERING" (the users shopping cart) can be updated.
-    @PutMapping(value = "/order")
-    public OrderDetail updateOrder(@RequestBody OrderDetail order) {
-        return service.updateOrder(order);
+    //Updating "ORDERING" status to "PLACED" (the users places an order)
+    @PutMapping(value = "/placeOrder")
+    public int updateOrder(@RequestParam Long uid) {
+        return service.placeOrder(uid);
     }
 
 

@@ -1,6 +1,7 @@
 package com.BaceletShop.controller;
 
 import com.BaceletShop.entities.User;
+import com.BaceletShop.service.OrderDetailService;
 import com.BaceletShop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class UserController {
 
 
     private final UserService service;
+    private final OrderDetailService orderDetailService;
 
     @GetMapping(value = "/login")
     public User login(@RequestParam(value = "identifier") String identifier,
@@ -26,7 +28,9 @@ public class UserController {
 
     @PostMapping(value = "/user")
     public User signup(@RequestBody User user) {
-        return service.createUser(user);
+        User newUser = service.createUser(user);
+        orderDetailService.createShoppingCart(newUser);
+        return newUser;
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.DELETE)
