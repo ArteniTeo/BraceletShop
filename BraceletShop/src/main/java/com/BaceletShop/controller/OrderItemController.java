@@ -34,6 +34,12 @@ public class OrderItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
     }
 
+    @PostMapping(value = "/addToCart")
+    public ResponseEntity<OrderItem> addToCart(@RequestParam Long pid, @RequestParam Long uid, @RequestParam int quantity) {
+        OrderItem createdItem = service.addToCart(pid, uid, quantity);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdItem);
+    }
+
     @PutMapping(value = "/deleteItem")
     public void deleteItem(@RequestParam(value = "id") Long id) {
         service.deleteItem(id);

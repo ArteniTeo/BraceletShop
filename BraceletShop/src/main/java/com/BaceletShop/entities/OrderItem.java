@@ -36,8 +36,14 @@ public class OrderItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    private Long quantity;
+    private int quantity;
 
     private Long price;
 
+    public OrderItem(OrderDetail order, Product product, int quantity) {
+        this.order = order;
+        this.product = product;
+        this.quantity = quantity;
+        this.price = product.getPrice();
+    }
 }
